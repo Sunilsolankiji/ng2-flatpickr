@@ -1,149 +1,9 @@
 import * as i0 from '@angular/core';
-import { forwardRef, Input, ViewChild, Component, EventEmitter, HostListener, Output, Directive } from '@angular/core';
+import { EventEmitter, HostListener, Output, Input, Directive, input, forwardRef, ViewChild, Component } from '@angular/core';
+import * as i1$1 from '@angular/common';
+import { CommonModule } from '@angular/common';
 import * as i1 from '@angular/forms';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-
-if (typeof window !== "undefined") {
-    require("flatpickr");
-}
-class Ng2FlatpickrComponent {
-    flatpickr;
-    _tabindex = 0;
-    onTouchedFn = () => { };
-    defaultFlatpickrOptions = {
-        wrap: true,
-        clickOpens: true,
-        onChange: (selectedDates) => {
-            this.writeValue(selectedDates);
-        },
-    };
-    flatpickrElement;
-    config;
-    placeholder = "";
-    addClass = "";
-    setDate;
-    get tabindex() {
-        return this._tabindex;
-    }
-    set tabindex(ti) {
-        this._tabindex = Number(ti);
-    }
-    hideButton = false;
-    ///////////////////////////////////
-    writeValue(value) {
-        this.propagateChange(value);
-    }
-    registerOnChange(fn) {
-        this.propagateChange = fn;
-    }
-    registerOnTouched(fn) {
-        this.onTouchedFn = fn;
-    }
-    propagateChange = (_) => { };
-    ///////////////////////////////////
-    setDateFromInput(date) {
-        this.flatpickrElement.nativeElement._flatpickr.setDate(date, true);
-    }
-    setAltInputPlaceholder(placeholder) {
-        this.flatpickrElement.nativeElement._flatpickr.altInput.setAttribute("placeholder", placeholder);
-    }
-    ngAfterViewInit() {
-        if (this.config) {
-            Object.assign(this.defaultFlatpickrOptions, this.config);
-        }
-        if (this.flatpickrElement.nativeElement.flatpickr) {
-            this.flatpickr = this.flatpickrElement.nativeElement.flatpickr(this.defaultFlatpickrOptions);
-        }
-        if (this.setDate) {
-            this.setDateFromInput(this.setDate);
-        }
-    }
-    ngOnChanges(changes) {
-        if (this.flatpickrElement.nativeElement &&
-            this.flatpickrElement.nativeElement._flatpickr) {
-            if (changes.hasOwnProperty("setDate") &&
-                changes["setDate"].currentValue) {
-                this.setDateFromInput(changes["setDate"].currentValue);
-            }
-            if (this.config.altInput &&
-                changes.hasOwnProperty("placeholder") &&
-                changes["placeholder"].currentValue) {
-                this.setAltInputPlaceholder(changes["placeholder"].currentValue);
-            }
-        }
-    }
-    onFocus(event) {
-        this.onTouchedFn();
-    }
-    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "19.2.2", ngImport: i0, type: Ng2FlatpickrComponent, deps: [], target: i0.ɵɵFactoryTarget.Component });
-    static ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "17.0.0", version: "19.2.2", type: Ng2FlatpickrComponent, isStandalone: true, selector: "ng2-flatpickr", inputs: { config: "config", placeholder: "placeholder", addClass: "addClass", setDate: "setDate", tabindex: "tabindex", hideButton: "hideButton" }, providers: [
-            {
-                provide: NG_VALUE_ACCESSOR,
-                useExisting: forwardRef(() => Ng2FlatpickrComponent),
-                multi: true,
-            },
-        ], viewQueries: [{ propertyName: "flatpickrElement", first: true, predicate: ["flatpickr"], descendants: true, static: true }], usesOnChanges: true, ngImport: i0, template: `
-    <div class="ng2-flatpickr-input-container" #flatpickr>
-		@if(!hideButton){
-			<input
-				class="ng2-flatpickr-input {{ addClass }}"
-				[placeholder]="placeholder"
-				[tabindex]="tabindex"
-				type="text"
-				(focus)="onFocus($event)"
-				data-input
-			/>
-		}
-      <ng-content></ng-content>
-    </div>
-  `, isInline: true });
-}
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "19.2.2", ngImport: i0, type: Ng2FlatpickrComponent, decorators: [{
-            type: Component,
-            args: [{
-                    selector: "ng2-flatpickr",
-                    //   imports: [Ng2FlatpickrDirective],
-                    template: `
-    <div class="ng2-flatpickr-input-container" #flatpickr>
-		@if(!hideButton){
-			<input
-				class="ng2-flatpickr-input {{ addClass }}"
-				[placeholder]="placeholder"
-				[tabindex]="tabindex"
-				type="text"
-				(focus)="onFocus($event)"
-				data-input
-			/>
-		}
-      <ng-content></ng-content>
-    </div>
-  `,
-                    providers: [
-                        {
-                            provide: NG_VALUE_ACCESSOR,
-                            useExisting: forwardRef(() => Ng2FlatpickrComponent),
-                            multi: true,
-                        },
-                    ],
-                }]
-        }], propDecorators: { flatpickrElement: [{
-                type: ViewChild,
-                args: ["flatpickr", {
-                        static: true,
-                    }]
-            }], config: [{
-                type: Input
-            }], placeholder: [{
-                type: Input
-            }], addClass: [{
-                type: Input
-            }], setDate: [{
-                type: Input
-            }], tabindex: [{
-                type: Input
-            }], hideButton: [{
-                type: Input
-            }] } });
 
 class Ng2FlatpickrDirective {
     parent;
@@ -703,6 +563,140 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "19.2.2", ngImpor
             }], onClick: [{
                 type: HostListener,
                 args: ["dblclick"]
+            }] } });
+
+if (typeof window !== "undefined") {
+    require("flatpickr");
+}
+class Ng2FlatpickrComponent {
+    flatpickr;
+    _tabindex = 0;
+    onTouchedFn = () => { };
+    defaultFlatpickrOptions = {
+        wrap: true,
+        clickOpens: true,
+        onChange: (selectedDates) => {
+            this.writeValue(selectedDates);
+        },
+    };
+    flatpickrElement;
+    config = input();
+    placeholder = input("");
+    addClass = input("");
+    setDate = input();
+    get tabindex() {
+        return this._tabindex;
+    }
+    set tabindex(ti) {
+        this._tabindex = Number(ti);
+    }
+    hideButton = input(false);
+    ///////////////////////////////////
+    writeValue(value) {
+        this.propagateChange(value);
+    }
+    registerOnChange(fn) {
+        this.propagateChange = fn;
+    }
+    registerOnTouched(fn) {
+        this.onTouchedFn = fn;
+    }
+    propagateChange = (_) => { };
+    ///////////////////////////////////
+    setDateFromInput(date) {
+        this.flatpickrElement.nativeElement._flatpickr.setDate(date, true);
+    }
+    setAltInputPlaceholder(placeholder) {
+        this.flatpickrElement.nativeElement._flatpickr.altInput.setAttribute("placeholder", placeholder);
+    }
+    ngAfterViewInit() {
+        if (this.config()) {
+            Object.assign(this.defaultFlatpickrOptions, this.config());
+        }
+        if (this.flatpickrElement.nativeElement.flatpickr) {
+            this.flatpickr = this.flatpickrElement.nativeElement.flatpickr(this.defaultFlatpickrOptions);
+        }
+        if (this.setDate()) {
+            this.setDateFromInput(this.setDate());
+        }
+    }
+    ngOnChanges(changes) {
+        if (this.flatpickrElement.nativeElement &&
+            this.flatpickrElement.nativeElement._flatpickr) {
+            if (changes.hasOwnProperty("setDate") &&
+                changes["setDate"].currentValue) {
+                this.setDateFromInput(changes["setDate"].currentValue);
+            }
+            if (this.config().altInput &&
+                changes.hasOwnProperty("placeholder") &&
+                changes["placeholder"].currentValue) {
+                this.setAltInputPlaceholder(changes["placeholder"].currentValue);
+            }
+        }
+    }
+    onFocus() {
+        this.onTouchedFn();
+    }
+    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "19.2.2", ngImport: i0, type: Ng2FlatpickrComponent, deps: [], target: i0.ɵɵFactoryTarget.Component });
+    static ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "17.0.0", version: "19.2.2", type: Ng2FlatpickrComponent, isStandalone: true, selector: "ng2-flatpickr", inputs: { config: { classPropertyName: "config", publicName: "config", isSignal: true, isRequired: false, transformFunction: null }, placeholder: { classPropertyName: "placeholder", publicName: "placeholder", isSignal: true, isRequired: false, transformFunction: null }, addClass: { classPropertyName: "addClass", publicName: "addClass", isSignal: true, isRequired: false, transformFunction: null }, setDate: { classPropertyName: "setDate", publicName: "setDate", isSignal: true, isRequired: false, transformFunction: null }, tabindex: { classPropertyName: "tabindex", publicName: "tabindex", isSignal: false, isRequired: false, transformFunction: null }, hideButton: { classPropertyName: "hideButton", publicName: "hideButton", isSignal: true, isRequired: false, transformFunction: null } }, providers: [
+            {
+                provide: NG_VALUE_ACCESSOR,
+                useExisting: forwardRef(() => Ng2FlatpickrComponent),
+                multi: true,
+            },
+        ], viewQueries: [{ propertyName: "flatpickrElement", first: true, predicate: ["flatpickr"], descendants: true, static: true }], usesOnChanges: true, ngImport: i0, template: `
+    <div class="ng2-flatpickr-input-container" #flatpickr>
+		@if(!hideButton()){
+			<input
+				class="ng2-flatpickr-input"
+				[ngClass]="addClass() || ''"
+				[placeholder]="placeholder()"
+				[tabindex]="tabindex"
+				type="text"
+				(focus)="onFocus()"
+				data-input
+			/>
+		}
+      <ng-content></ng-content>
+    </div>
+  `, isInline: true, dependencies: [{ kind: "ngmodule", type: CommonModule }, { kind: "directive", type: i1$1.NgClass, selector: "[ngClass]", inputs: ["class", "ngClass"] }] });
+}
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "19.2.2", ngImport: i0, type: Ng2FlatpickrComponent, decorators: [{
+            type: Component,
+            args: [{
+                    selector: "ng2-flatpickr",
+                    imports: [Ng2FlatpickrDirective, CommonModule],
+                    template: `
+    <div class="ng2-flatpickr-input-container" #flatpickr>
+		@if(!hideButton()){
+			<input
+				class="ng2-flatpickr-input"
+				[ngClass]="addClass() || ''"
+				[placeholder]="placeholder()"
+				[tabindex]="tabindex"
+				type="text"
+				(focus)="onFocus()"
+				data-input
+			/>
+		}
+      <ng-content></ng-content>
+    </div>
+  `,
+                    providers: [
+                        {
+                            provide: NG_VALUE_ACCESSOR,
+                            useExisting: forwardRef(() => Ng2FlatpickrComponent),
+                            multi: true,
+                        },
+                    ],
+                }]
+        }], propDecorators: { flatpickrElement: [{
+                type: ViewChild,
+                args: ["flatpickr", {
+                        static: true,
+                    }]
+            }], tabindex: [{
+                type: Input
             }] } });
 
 /**

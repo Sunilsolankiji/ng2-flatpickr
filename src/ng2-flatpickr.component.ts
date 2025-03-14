@@ -4,7 +4,9 @@ import {
   forwardRef,
   Input,
   SimpleChanges,
+  input,
 } from "@angular/core";
+import { CommonModule } from '@angular/common';
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
 import { FlatpickrOptions } from "./flatpickr-options.interface";
 import { Ng2FlatpickrDirective } from "./ng2-flatpickr.directive";
@@ -17,16 +19,17 @@ if (typeof window !== "undefined") {
 
 @Component({
   selector: "ng2-flatpickr",
-//   imports: [Ng2FlatpickrDirective],
+  imports: [Ng2FlatpickrDirective, CommonModule],
   template: `
     <div class="ng2-flatpickr-input-container" #flatpickr>
-		@if(!hideButton){
+		@if(!hideButton()){
 			<input
-				class="ng2-flatpickr-input {{ addClass }}"
-				[placeholder]="placeholder"
+				class="ng2-flatpickr-input"
+				[ngClass]="addClass() || ''"
+				[placeholder]="placeholder()"
 				[tabindex]="tabindex"
 				type="text"
-				(focus)="onFocus($event)"
+				(focus)="onFocus()"
 				data-input
 			/>
 		}
@@ -59,17 +62,13 @@ export class Ng2FlatpickrComponent {
   })
   flatpickrElement: any;
 
-  @Input()
-  config: FlatpickrOptions;
+  config = input<FlatpickrOptions>();
 
-  @Input()
-  placeholder: string = "";
+  placeholder = input<string>("");
 
-  @Input()
-  addClass: string = "";
+  addClass = input<string>("");
 
-  @Input()
-  setDate: string | Date;
+  setDate = input<string | Date>();
 
   @Input()
   get tabindex() {
@@ -79,8 +78,7 @@ export class Ng2FlatpickrComponent {
     this._tabindex = Number(ti);
   }
 
-  @Input()
-  hideButton = false;
+  hideButton = input<boolean>(false);
 
   ///////////////////////////////////
 
@@ -112,16 +110,16 @@ export class Ng2FlatpickrComponent {
   }
 
   ngAfterViewInit() {
-    if (this.config) {
-      Object.assign(this.defaultFlatpickrOptions, this.config);
+    if (this.config()) {
+      Object.assign(this.defaultFlatpickrOptions, this.config());
     }
     if (this.flatpickrElement.nativeElement.flatpickr) {
       this.flatpickr = this.flatpickrElement.nativeElement.flatpickr(
         this.defaultFlatpickrOptions
       );
     }
-    if (this.setDate) {
-      this.setDateFromInput(this.setDate);
+    if (this.setDate()) {
+      this.setDateFromInput(this.setDate());
     }
   }
 
@@ -138,7 +136,7 @@ export class Ng2FlatpickrComponent {
       }
 
       if (
-        this.config.altInput &&
+        this.config().altInput &&
         changes.hasOwnProperty("placeholder") &&
         changes["placeholder"].currentValue
       ) {
@@ -147,7 +145,7 @@ export class Ng2FlatpickrComponent {
     }
   }
 
-  onFocus(event: any) {
+  onFocus() {
     this.onTouchedFn();
   }
 }

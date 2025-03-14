@@ -7,13 +7,13 @@ export declare class Ng2FlatpickrComponent {
     onTouchedFn: Function;
     private defaultFlatpickrOptions;
     flatpickrElement: any;
-    config: FlatpickrOptions;
-    placeholder: string;
-    addClass: string;
-    setDate: string | Date;
+    config: import("@angular/core").InputSignal<FlatpickrOptions>;
+    placeholder: import("@angular/core").InputSignal<string>;
+    addClass: import("@angular/core").InputSignal<string>;
+    setDate: import("@angular/core").InputSignal<string | Date>;
     get tabindex(): number;
     set tabindex(ti: number);
-    hideButton: boolean;
+    hideButton: import("@angular/core").InputSignal<boolean>;
     writeValue(value: any): void;
     registerOnChange(fn: any): void;
     registerOnTouched(fn: any): void;
@@ -22,7 +22,7 @@ export declare class Ng2FlatpickrComponent {
     setAltInputPlaceholder(placeholder: string): void;
     ngAfterViewInit(): void;
     ngOnChanges(changes: SimpleChanges): void;
-    onFocus(event: any): void;
+    onFocus(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<Ng2FlatpickrComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<Ng2FlatpickrComponent, "ng2-flatpickr", never, { "config": { "alias": "config"; "required": false; }; "placeholder": { "alias": "placeholder"; "required": false; }; "addClass": { "alias": "addClass"; "required": false; }; "setDate": { "alias": "setDate"; "required": false; }; "tabindex": { "alias": "tabindex"; "required": false; }; "hideButton": { "alias": "hideButton"; "required": false; }; }, {}, never, ["*"], true, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<Ng2FlatpickrComponent, "ng2-flatpickr", never, { "config": { "alias": "config"; "required": false; "isSignal": true; }; "placeholder": { "alias": "placeholder"; "required": false; "isSignal": true; }; "addClass": { "alias": "addClass"; "required": false; "isSignal": true; }; "setDate": { "alias": "setDate"; "required": false; "isSignal": true; }; "tabindex": { "alias": "tabindex"; "required": false; }; "hideButton": { "alias": "hideButton"; "required": false; "isSignal": true; }; }, {}, never, ["*"], true, never>;
 }

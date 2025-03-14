@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "tsc -p ./tsconfig.json",
-    "build": "ng-packagr -p package.json",
+    "build": "ng-packagr -p ng-package.json --watch",
     "publish": "npm publish ./dist"
   },
   "repository": {
@@ -19,20 +19,20 @@
   },
   "homepage": "https://github.com/mezoistvan/ng2-flatpickr#readme",
   "peerDependencies": {
-    "flatpickr": "^4.6.0"
+    "flatpickr": "^4.6.13"
   },
   "devDependencies": {
-    "@angular/common": "^9.0.0",
-    "@angular/compiler": "^9.0.0",
-    "@angular/compiler-cli": "^9.0.0",
-    "@angular/core": "^9.0.0",
-    "@angular/forms": "^9.0.0",
-    "@angular/platform-browser": "^9.0.0",
+    "@angular/common": "^19.2.0",
+    "@angular/compiler": "^19.2.0",
+    "@angular/compiler-cli": "^19.2.0",
+    "@angular/core": "^19.2.0",
+    "@angular/forms": "^19.2.0",
+    "@angular/platform-browser": "^19.2.0",
     "@types/node": "^12.11.7",
-    "ng-packagr": "^9.0.0",
-    "rxjs": "~6.5.0",
-    "typescript": ">=3.6.0 <3.7.0",
-    "zone.js": "~0.10.2"
+    "ng-packagr": "^19.2.0",
+    "rxjs": "~7.8.0",
+    "typescript": ">=5.5.0 <5.9.0",
+    "zone.js": "~0.15.0"
   },
   "ngPackage": {
     "lib": {

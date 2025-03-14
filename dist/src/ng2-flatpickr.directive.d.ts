@@ -1,10 +1,11 @@
-import { AfterViewInit, ElementRef, EventEmitter, OnDestroy, OnInit, Renderer2, SimpleChanges, OnChanges } from '@angular/core';
-import { ControlContainer, FormControl, NgControl } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { FlatpickrEvent } from './flatpickr-event.interface';
-import { FlatpickrInstance } from './flatpickr-instance';
-import { FlatpickrOptions } from './flatpickr-options.interface';
-export declare class Ng2FlatpickrDirective implements AfterViewInit, OnDestroy, OnInit, OnChanges {
+import { ElementRef, EventEmitter, Renderer2, SimpleChanges } from "@angular/core";
+import { ControlContainer, FormControl, NgControl } from "@angular/forms";
+import { Subscription } from "rxjs";
+import { FlatpickrEvent } from "./flatpickr-event.interface";
+import { FlatpickrInstance } from "./flatpickr-instance";
+import { FlatpickrOptions } from "./flatpickr-options.interface";
+import * as i0 from "@angular/core";
+export declare class Ng2FlatpickrDirective {
     protected parent: ControlContainer;
     protected ngControl: NgControl;
     protected element: ElementRef;
@@ -249,7 +250,7 @@ export declare class Ng2FlatpickrDirective implements AfterViewInit, OnDestroy, 
     /** Allow access properties using index notation */
     [key: string]: any;
     constructor(parent: ControlContainer, ngControl: NgControl, element: ElementRef, renderer: Renderer2);
-    readonly control: FormControl;
+    get control(): FormControl;
     ngAfterViewInit(): void;
     ngOnChanges(changes: SimpleChanges): void;
     ngOnDestroy(): void;
@@ -279,4 +280,6 @@ export declare class Ng2FlatpickrDirective implements AfterViewInit, OnDestroy, 
      * doesn't exist.
      */
     protected getOption(option: string, defaultValue?: any): any;
+    static ɵfac: i0.ɵɵFactoryDeclaration<Ng2FlatpickrDirective, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<Ng2FlatpickrDirective, "[flatpickr]", ["ng2-flatpickr"], { "flatpickrOptions": { "alias": "flatpickr"; "required": false; }; "placeholder": { "alias": "placeholder"; "required": false; }; "flatpickrAltFormat": { "alias": "altFormat"; "required": false; }; "flatpickrAltInput": { "alias": "altInput"; "required": false; }; "flatpickrAltInputClass": { "alias": "altInputClass"; "required": false; }; "flatpickrAllowInput": { "alias": "allowInput"; "required": false; }; "flatpickrAppendTo": { "alias": "appendTo"; "required": false; }; "flatpickrClickOpens": { "alias": "clickOpens"; "required": false; }; "flatpickrDateFormat": { "alias": "dateFormat"; "required": false; }; "flatpickrDefaultDate": { "alias": "defaultDate"; "required": false; }; "flatpickrDisable": { "alias": "disable"; "required": false; }; "flatpickrDisableMobile": { "alias": "disableMobile"; "required": false; }; "flatpickrEnable": { "alias": "enable"; "required": false; }; "flatpickrEnableTime": { "alias": "enableTime"; "required": false; }; "flatpickrEnableSeconds": { "alias": "enableSeconds"; "required": false; }; "flatpickrHourIncrement": { "alias": "hourIncrement"; "required": false; }; "flatpickrInline": { "alias": "inline"; "required": false; }; "flatpickrLocale": { "alias": "locale"; "required": false; }; "flatpickrMaxDate": { "alias": "maxDate"; "required": false; }; "flatpickrMinDate": { "alias": "minDate"; "required": false; }; "flatpickrMinuteIncrement": { "alias": "minuteIncrement"; "required": false; }; "flatpickrMode": { "alias": "mode"; "required": false; }; "flatpickrNextArrow": { "alias": "nextArrow"; "required": false; }; "flatpickrNoCalendar": { "alias": "noCalendar"; "required": false; }; "flatpickrParseDate": { "alias": "parseDate"; "required": false; }; "flatpickrPrevArrow": { "alias": "prevArrow"; "required": false; }; "flatpickrShorthandCurrentMonth": { "alias": "shorthandCurrentMonth"; "required": false; }; "flatpickrStatic": { "alias": "static"; "required": false; }; "flatpickrTime_24hr": { "alias": "time_24hr"; "required": false; }; "flatpickrUtc": { "alias": "utc"; "required": false; }; "flatpickrWeekNumbers": { "alias": "weekNumbers"; "required": false; }; "flatpickrWrap": { "alias": "wrap"; "required": false; }; }, { "flatpickrOnChange": "onChange"; "flatpickrOnClose": "onClose"; "flatpickrOnOpen": "onOpen"; "flatpickrOnReady": "onReady"; }, never, never, true, never>;
 }

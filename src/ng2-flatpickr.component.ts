@@ -1,15 +1,17 @@
 import {
   Component,
-  ViewChild,
   forwardRef,
-  Input,
-  SimpleChanges,
   input,
+  viewChild,
+  ElementRef,
+  effect,
+  output,
 } from "@angular/core";
-import { CommonModule } from '@angular/common';
+import { CommonModule } from "@angular/common";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
 import { FlatpickrOptions } from "./flatpickr-options.interface";
 import { Ng2FlatpickrDirective } from "./ng2-flatpickr.directive";
+import { debounceTime, Subject } from "rxjs";
 
 declare var require: any;
 
@@ -22,17 +24,17 @@ if (typeof window !== "undefined") {
   imports: [Ng2FlatpickrDirective, CommonModule],
   template: `
     <div class="ng2-flatpickr-input-container" #flatpickr>
-		@if(!hideButton()){
-			<input
-				class="ng2-flatpickr-input"
-				[ngClass]="addClass() || ''"
-				[placeholder]="placeholder()"
-				[tabindex]="tabindex"
-				type="text"
-				(focus)="onFocus()"
-				data-input
-			/>
-		}
+      @if(!hideButton()){
+      <input
+        class="ng2-flatpickr-input"
+        [ngClass]="addClass() || ''"
+        [placeholder]="placeholder()"
+        [tabindex]="tabindex()"
+        type="text"
+        (focus)="debouncedOnFocus($event)"
+        data-input
+      />
+      }
       <ng-content></ng-content>
     </div>
   `,
@@ -46,21 +48,17 @@ if (typeof window !== "undefined") {
 })
 export class Ng2FlatpickrComponent {
   public flatpickr: Object;
-  private _tabindex = 0;
-  onTouchedFn: Function = () => {};
+  private onFocusSubject: Subject<any> = new Subject();
 
   private defaultFlatpickrOptions: FlatpickrOptions = {
     wrap: true,
     clickOpens: true,
     onChange: (selectedDates: any) => {
-      this.writeValue(selectedDates);
+      this.onChange.emit(selectedDates);
     },
   };
 
-  @ViewChild("flatpickr", {
-    static: true,
-  })
-  flatpickrElement: any;
+  flatpickrElement = viewChild.required<ElementRef>("flatpickr");
 
   config = input<FlatpickrOptions>();
 
@@ -70,51 +68,50 @@ export class Ng2FlatpickrComponent {
 
   setDate = input<string | Date>();
 
-  @Input()
-  get tabindex() {
-    return this._tabindex;
-  }
-  set tabindex(ti: number) {
-    this._tabindex = Number(ti);
-  }
+  tabindex = input<number>(0);
 
   hideButton = input<boolean>(false);
 
-  ///////////////////////////////////
+  onChange = output<any>();
 
-  writeValue(value: any) {
-    this.propagateChange(value);
-  }
-
-  registerOnChange(fn: any) {
-    this.propagateChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouchedFn = fn;
-  }
-
-  propagateChange = (_: any) => {};
+  onFocus = output<any>();
 
   ///////////////////////////////////
 
-  setDateFromInput(date: any) {
-    this.flatpickrElement.nativeElement._flatpickr.setDate(date, true);
+  constructor() {
+	this.onFocusSubject.pipe(debounceTime(300)).subscribe((event: any) => {
+		this.onFocus.emit(event);
+	});
+	
+    effect(() => {
+      if (
+        this.flatpickrElement().nativeElement &&
+        this.flatpickrElement().nativeElement._flatpickr
+      ) {
+        this.setDateFromInput(this.setDate());
+      }
+    });
+
+    effect(() => {
+      if (
+        this.flatpickrElement().nativeElement &&
+        this.flatpickrElement().nativeElement._flatpickr
+      ) {
+        if (this.config().altInput) {
+          this.setAltInputPlaceholder(this.placeholder());
+        }
+      }
+    });
   }
 
-  setAltInputPlaceholder(placeholder: string) {
-    this.flatpickrElement.nativeElement._flatpickr.altInput.setAttribute(
-      "placeholder",
-      placeholder
-    );
-  }
+  ///////////////////////////////////
 
   ngAfterViewInit() {
     if (this.config()) {
       Object.assign(this.defaultFlatpickrOptions, this.config());
     }
-    if (this.flatpickrElement.nativeElement.flatpickr) {
-      this.flatpickr = this.flatpickrElement.nativeElement.flatpickr(
+    if (this.flatpickrElement().nativeElement.flatpickr) {
+      this.flatpickr = this.flatpickrElement().nativeElement.flatpickr(
         this.defaultFlatpickrOptions
       );
     }
@@ -123,29 +120,19 @@ export class Ng2FlatpickrComponent {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (
-      this.flatpickrElement.nativeElement &&
-      this.flatpickrElement.nativeElement._flatpickr
-    ) {
-      if (
-        changes.hasOwnProperty("setDate") &&
-        changes["setDate"].currentValue
-      ) {
-        this.setDateFromInput(changes["setDate"].currentValue);
-      }
-
-      if (
-        this.config().altInput &&
-        changes.hasOwnProperty("placeholder") &&
-        changes["placeholder"].currentValue
-      ) {
-        this.setAltInputPlaceholder(changes["placeholder"].currentValue);
-      }
-    }
+  setDateFromInput(date: any) {
+    this.flatpickrElement().nativeElement._flatpickr.setDate(date, true);
   }
 
-  onFocus() {
-    this.onTouchedFn();
+  setAltInputPlaceholder(placeholder: string) {
+    this.flatpickrElement().nativeElement._flatpickr.altInput.setAttribute(
+      "placeholder",
+      placeholder
+    );
   }
+
+  debouncedOnFocus(event: any) {
+	this.onFocusSubject.next(event);
+}
+
 }
